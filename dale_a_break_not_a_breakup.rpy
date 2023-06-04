@@ -3,13 +3,14 @@ init -990 python in mas_submod_utils:
     Submod(
         author="DaleRuneMTS",
         name="A Break Not A Breakup",
-        description="Sometimes you just need time away from each other, and it helps if you're able to explain to your Monika the why.
+        description="Sometimes you just need time away from each other, and it helps if you're able to explain to your Monika the why."
         "V0.0.1 - bug fixes upon the return.",
         version="1.0.1",
         dependencies={},
         settings_pane=None,
         version_updates={
         "DaleRuneMTS_dale_a_break_not_a_breakup_1_0_0": "DaleRuneMTS_dale_a_break_not_a_breakup_1_0_1"
+        }
     )
 
 # Register the updater
@@ -81,6 +82,7 @@ init 5 python:
     )
 
 label monika_break:
+    $ persistent._mas_long_absence = True
     if mas_isMoniBroken():
         m 6cud "[player]?{nw}"
     elif mas_isMoniDis():
@@ -257,7 +259,8 @@ init 5 python:
     )
 
 label greeting_sadbreak:
-    $ mas_ret_break = True
+    $ persistent._mas_long_absence = False
+    $ mas_ret_long_absence = True
 
     if mas_isMoniBroken():
         m 6cuc "Oh."
@@ -293,7 +296,8 @@ init 5 python:
     )
 
 label greeting_break:
-    $ mas_ret_break = True
+    $ persistent._mas_long_absence = False
+    $ mas_ret_long_absence = True
 
     if mas_getAbsenceLength() <= datetime.timedelta(days=3):
         m 1wuo "Oh! [player], you're back so soon?"
@@ -316,6 +320,8 @@ label greeting_break:
                 m "What shall we do to celebrate our impromptu reunion, hm?"
                 return
             "Force of habit, sorry.":
+                $ persistent._mas_long_absence = True
+                $ mas_ret_long_absence = False
                 m 1eub "Haha, that's okay!"
                 m 3euu "A girlfriend is a habit that's hard to break."
                 m 1fua "Okay, I'll let you go, then. I'm sure you've got things to do."
